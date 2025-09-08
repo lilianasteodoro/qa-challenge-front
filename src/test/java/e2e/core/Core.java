@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -29,12 +28,13 @@ public class Core {
     private Scenario cenario = null;
 
     public Core() {
+        setCenario(cenario);
     }
 
-    public static void iniciarDriver(boolean headless) {
+    public static void iniciarDriver() {
         driver = null;
         try {
-            driver = getDriver(getProperties("browser"), headless);
+            driver = getDriver(getProperties("browser"));
             wait = new WebDriverWait(driver, Duration.ofSeconds(30L));
             jsExec = (JavascriptExecutor) driver;
             actions = new Actions(driver);
@@ -44,14 +44,11 @@ public class Core {
         }
     }
 
-    private static WebDriver getDriver(String browser, boolean headless) throws Exception {
+    private static WebDriver getDriver(String browser) throws Exception {
         if (driver == null) {
             if (browser.equals("chrome")) {
                 ChromeOptions options = new ChromeOptions();
                 options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-                if (headless) {
-                    options.addArguments("--headless");
-                }
                 driver = new ChromeDriver(options);
             }
         }
@@ -69,14 +66,6 @@ public class Core {
             System.out.println("Não foi possivel acessar o arquivo properties " + e.getMessage());
         }
         return value;
-    }
-
-    public void aguardar() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-    }
-
-    public void aguardar(int segundos) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(segundos));
     }
 
     public void aguardarElementoPresente(By by) {
@@ -118,22 +107,6 @@ public class Core {
         return By.xpath(xpath);
     }
 
-    public By getByClassName(String className) {
-        return By.className(className);
-    }
-
-    public By getByTagName(String tagName) {
-        return By.tagName(tagName);
-    }
-
-    public By getByLinkText(String linkText) {
-        return By.linkText(linkText);
-    }
-
-    public By getByPartialLinkText(String linkText) {
-        return By.partialLinkText(linkText);
-    }
-
     public void digitarCampo(By by, String informacao) {
         if (!informacao.trim().isEmpty()) {
             aguardarElementoCarregar(by);
@@ -148,24 +121,9 @@ public class Core {
         }
     }
 
-    public void limparCampo(By by) {
-        aguardarElementoCarregar(by);
-        getElemento(by).clear();
-    }
-
     public void sairCampo(By by) {
         aguardarElementoCarregar(by);
         getElemento(by).sendKeys(Keys.ENTER);
-    }
-
-    public void tabCampo(By by) {
-        aguardarElementoCarregar(by);
-        getElemento(by).sendKeys(Keys.TAB);
-    }
-
-    public void pressionarEsc(By by) {
-        aguardarElementoCarregar(by);
-        getElemento(by).sendKeys(Keys.ESCAPE);
     }
 
     public void clicar(By by) {
@@ -186,19 +144,9 @@ public class Core {
         aguardarThreadSleep(1);
     }
 
-    public void atualizarPagina() {
-        driver.navigate().refresh();
-    }
-
     public void acessarPagina(String url) {
         driver.get(url);
         aguardarThreadSleep(1);
-    }
-
-    public String getUrlAtual() {
-        String urlAtual = null;
-        urlAtual = driver.getCurrentUrl();
-        return urlAtual;
     }
 
     public static void fecharDriver() {
@@ -230,12 +178,7 @@ public class Core {
         Assert.assertEquals(esperado, getElemento(by).getText());
     }
 
-    public void validarCampoGetAttribute(By by, String esperado, String atributo) {
-        aguardarElementoCarregar(by);
-        Assert.assertEquals(esperado, getElemento(by).getAttribute(atributo));
-    }
-
-    public String returnGetAttribute(By by,  String atributo) {
+    public String returnGetAttribute(By by, String atributo) {
         aguardarElementoCarregar(by);
         return getElemento(by).getAttribute(atributo);
     }
@@ -257,28 +200,8 @@ public class Core {
         this.cenario = cenario;
     }
 
-    public static WebDriver getDriver() {
-        return driver;
-    }
-
-    public static Faker getDados() {
-        return faker;
-    }
-
     public void irParaFrame(int index) {
         driver.switchTo().frame(index);
-    }
-
-    public void validarCampoGetTextFrame(By by, String esperado, int index) {
-        irParaFrame(index);
-        validarCampoGetText(by, esperado);
-    }
-
-    public void selecionarSelect(By by, String name, int index) {
-        clicar(by);
-        WebElement selectElement = driver.findElement(By.name(name));
-        Select select = new Select(selectElement);
-        select.selectByIndex(index);
     }
 
     public void anexarArquivo(By by, String arquivo) {

@@ -2,6 +2,8 @@ package e2e.steps;
 
 import e2e.core.Core;
 import e2e.pages.Windows;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -16,14 +18,19 @@ public class PassosWindows extends Core {
         PageFactory.initElements(driver, this.paginaWindows);
     }
 
+    @Before(value = "@Widgets")
+    public void before(Scenario cenario) {
+        setCenario(cenario);
+    }
+
     @And("^acessou o submenu Browser Windows$")
     public void acessou_o_submenu_Browser_Windows() {
         clicar(paginaWindows.getBrowserWindows());
     }
 
-
     @When("^clicar no botão New Window$")
     public void clicar_no_botao_New_Window() {
+        rolarPagina();
         clicar(paginaWindows.getBotaoNovaJanela());
     }
 

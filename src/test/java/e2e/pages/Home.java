@@ -24,4 +24,8 @@ public class Home extends Core {
     public By getWidgets() {
         return getByXpath("//*[text()='Widgets']");
     }
+
+    public By getElements() {
+        return getByXpath("//*[text()='Elements']");
+    }
 }

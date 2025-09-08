@@ -2,6 +2,8 @@ package e2e.steps;
 
 import e2e.core.Core;
 import e2e.pages.Interactions;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.support.PageFactory;
@@ -13,6 +15,11 @@ public class PassosInteractions extends Core {
     public PassosInteractions() {
         paginaInteractions = new Interactions();
         PageFactory.initElements(driver, this.paginaInteractions);
+    }
+
+    @Before(value = "@Interactions")
+    public void before(Scenario cenario) {
+        setCenario(cenario);
     }
 
     @And("^acessou o submenu Sortable$")

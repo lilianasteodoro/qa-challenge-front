@@ -2,6 +2,8 @@ package e2e.steps;
 
 import e2e.core.Core;
 import e2e.pages.Forms;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,6 +20,11 @@ public class PassosForms extends Core {
         random = (int) (Math.random() * 3);
     }
 
+    @Before(value = "@Forms")
+    public void before(Scenario cenario) {
+        setCenario(cenario);
+    }
+
     @And("^acessou o submenu Practice Form$")
     public void acessou_o_submenu_Practice_Form() {
         clicar(paginaForms.getPracticeForm());
@@ -26,7 +33,7 @@ public class PassosForms extends Core {
     @When("^preencher o formulário com dados aleatórios$")
     public void preencher_o_formulario_com_dados_aleatorios() {
         digitarCampo(paginaForms.getCampoNome(), faker.name().firstName());
-        digitarCampo(paginaForms.getCampoSobreNome(), faker.name().lastName());
+        digitarCampo(paginaForms.getCampoSobrenome(), faker.name().lastName());
         digitarCampo(paginaForms.getCampoEmail(), faker.internet().emailAddress());
         rolarPagina();
         clicar(paginaForms.getRadio(random));
@@ -46,6 +53,7 @@ public class PassosForms extends Core {
 
     @And("^submeter o formulário$")
     public void submeter_o_formulario() {
+        rolarPagina();
         clicar(paginaForms.getBotaoSubmit());
     }
 

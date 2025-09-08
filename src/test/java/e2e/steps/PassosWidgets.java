@@ -2,6 +2,8 @@ package e2e.steps;
 
 import e2e.core.Core;
 import e2e.pages.Widgets;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,6 +17,11 @@ public class PassosWidgets extends Core {
     public PassosWidgets() {
         paginaWidgets = new Widgets();
         PageFactory.initElements(driver, this.paginaWidgets);
+    }
+
+    @Before(value = "@Windows")
+    public void before(Scenario cenario) {
+        setCenario(cenario);
     }
 
     @And("^acessou o submenu Progress Bar$")

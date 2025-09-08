@@ -14,14 +14,12 @@ import org.junit.runner.RunWith;
 
 public class Run extends Core {
 
-    public static boolean HEADLESS = false;
-
     public Run() {
     }
 
     @BeforeClass
     public static void iniciar() {
-        iniciarDriver(HEADLESS);
+        iniciarDriver();
     }
 
     @AfterClass

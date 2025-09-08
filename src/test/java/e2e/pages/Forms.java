@@ -13,7 +13,7 @@ public class Forms extends Core {
         return getById("firstName");
     }
 
-    public By getCampoSobreNome() {
+    public By getCampoSobrenome() {
         return getById("lastName");
     }
 
