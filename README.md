@@ -8,11 +8,7 @@ Segunda parte do desafio técnico com o foco em automação de elementos visuais
 
 - Selenium WebDriver 4.35.0
 
-Foram implementados cenários de teste para os 4 módulos principais: **Elements
-Forms
-Alerts, Frame & Windows
-Widgets
-Interactionse**.
+Foram implementados cenários de teste para os 4 módulos principais: **Elements, Forms, Alerts, Frame & Windows, Widgets e Interactions**.
 
 ### Executando os testes
 
